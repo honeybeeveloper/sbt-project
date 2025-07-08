@@ -1,0 +1,11 @@
+.env
+__pycache__/
+.DS_Store
+*.md
+*.xml
+*.toml
+*.iml
+*.txt
+
+log/
+uv.lock
