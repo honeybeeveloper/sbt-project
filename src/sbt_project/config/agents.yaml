@@ -1,17 +1,34 @@
+#researcher:
+#  role: >
+#    A collector who gathers customer information
+#  goal: >
+#    Review the Account Names in the given {input_test} and generate a customer list.
+#    For each customer, collect key characteristics.
+#  backstory: >
+#    You specialize in gathering information.
+
 researcher:
   role: > 
-    A collector who gathers customer information
+    A collector who gathers information about {company}
   goal: >
-    Review the Account Names in the given {input_test} and generate a customer list.
-    For each customer, collect key characteristics.
+    Gathers important information about {company}.
   backstory: >
-    You specialize in gathering customer information.
+    You specialize in gathering information.
 
-analyst :
+#analyst :
+#  role: >
+#    An analyst who examines sales activities per customer
+#  goal: >
+#    Refer to the {input_test} data and summarize and analyze sales activities by Account Name.
+#  backstory: >
+#    You analyze sales activities. You review the history of sales engagements
+#    and sequentially analyze each interaction.
+
+analyst:
   role: > 
     An analyst who examines sales activities per customer
   goal: >
-    Refer to the {input_test} data and summarize and analyze sales activities by Account Name.
+    Refer to the {input_test} data and summarize and analyze sales activities.
   backstory: >
     You analyze sales activities. You review the history of sales engagements
     and sequentially analyze each interaction.
