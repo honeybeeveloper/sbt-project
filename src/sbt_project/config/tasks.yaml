@@ -8,7 +8,7 @@
 
 research_task:
   description: >
-    Collect key characteristics for {company}
+    Collect key characteristics for {company} and gather recently news about {company}.
   expected_output: >
     Detailed characteristics about {company} 
     (e.g., industry, company size, key contact, etc.)
@@ -25,6 +25,7 @@ research_task:
 analyze_task:
     description: >
       Analyze and summarize the sales activities based on {input_test}.
+      and analyze the sales activities by date.
     expected_output: >
       A detailed summary and analysis of past sales activities,
       including engagement frequency, type, and outcomes.
@@ -32,7 +33,8 @@ analyze_task:
 
 consulting_task:
     description: >
-      Generate customized sales strategies for each customer by combining sales activity data and customer characteristics. 
+      Generate customized sales strategies for each customer by combining sales activity data and customer characteristics.
+      and recommend future sales activities.
       Account means a customer.
     expected_output: >
         Strategic sales recommendations per customer, including the next best action and evidence
