@@ -5,6 +5,9 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 
+from sbt_project import app_config
+from sbt_project.tools import TrendTool, VisualizationTool
+
 now_str = datetime.datetime.now().strftime('%y%m%d_%H%M%S')
 
 @CrewBase
@@ -14,24 +17,28 @@ class SbtProject():
     agents: List[BaseAgent]
     tasks: List[Task]
 
+    company = app_config.company
+    trand_tool = TrendTool()
+    # visualization_tool = VisualizationTool()
+
     @agent
-    def researcher(self) -> Agent:
+    def recommender(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
+            config=self.agents_config['recommender'], # type: ignore[index]
             verbose=True
         )
 
     @agent
-    def analyst(self) -> Agent:
+    def trend_investigator(self) -> Agent:
         return Agent(
-            config=self.agents_config['analyst'], # type: ignore[index]
+            config=self.agents_config['trend_investigator'], # type: ignore[index]
             verbose=True
         )
 
     @agent
-    def consultant(self) -> Agent:
+    def strategy_advisor(self) -> Agent:
         return Agent(
-            config=self.agents_config['consultant'],  # type: ignore[index]
+            config=self.agents_config['strategy_advisor'],  # type: ignore[index]
             verbose=True
         )
 
@@ -43,32 +50,34 @@ class SbtProject():
         )
 
     @task
-    def research_task(self) -> Task:
+    def recommend_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+            config=self.tasks_config['recommend_task'], # type: ignore[index]
         )
 
     @task
-    def analyze_task(self) -> Task:
+    def investigate_task(self) -> Task:
         return Task(
-            config=self.tasks_config['analyze_task'], # type: ignore[index]
-            output_file=f"analyze_task_{now_str}.md",
+            config=self.tasks_config['investigate_task'], # type: ignore[index]
+            context=[self.recommend_task()],
+            tools=[self.trand_tool],
+            output_file=f"{self.company}_investigate_task_{now_str}.md",
         )
 
     @task
-    def consulting_task(self) -> Task:
+    def propose_strategy_task(self) -> Task:
         return Task(
-            config=self.tasks_config['consulting_task'],  # type: ignore[index]
-            context=[self.research_task(), self.analyze_task()],
-            output_file=f"consulting_task_{now_str}.md",
+            config=self.tasks_config['propose_strategy_task'],  # type: ignore[index]
+            context=[self.recommend_task(), self.investigate_task()],
+            output_file=f"{self.company}_propose_strategy_task_{now_str}.md",
         )
 
     @task
     def translate_task(self) -> Task:
         return Task(
             config=self.tasks_config['translate_task'],  # type: ignore[index]
-            context=[self.consulting_task()],
-            output_file=f"translate_task_{now_str}.md",
+            context=[self.investigate_task(), self.propose_strategy_task()],
+            output_file=f"{self.company}_translate_task_{now_str}.md",
         )
 
     @crew

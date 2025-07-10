@@ -1,30 +1,30 @@
-research_task :
+recommend_task :
   description: >
-    Extract Account Names from the {input_test} and collect key characteristics for each account. Account means a customer.
+    Based on the {company}, analyze its business domain and recommend keywords that offer insight for sustaining and expanding its business.
+    Finally, translate the output into Korean.
   expected_output: >
-    A structured list of customer names with detailed characteristics per customer 
-    (e.g., industry, company size, key contact, etc.)
-  agent: researcher
+    A list of strategic keywords relevant to the {company}'s current and future business directions.
+  agent: recommender
 
-analyze_task :
+investigate_task :
     description: >
-      Analyze and summarize the sales activities per Account Name based on {input_test}. Account means a customer.
+      Research the current trends for the keywords suggested by the Keyword Recommender. Use Google Trends and other websites to gather trend data and summarize insights.
+      Finally, translate the output into Korean.
     expected_output: >
-      A detailed summary and analysis of past sales activities for each customer,
-      including engagement frequency, type, and outcomes.
-    agent: analyst
+      A summarized trend report for each keyword, including interest levels, regional patterns, and recent mentions or news.
+    agent: trend_investigator
 
-consulting_task:
+propose_strategy_task :
     description: >
-      Generate customized sales strategies for each customer by combining sales activity data and customer characteristics. Account means a customer.
+      Based on the {company} profile and the keyword trend report, propose innovative and practical strategies that could support business growth and differentiation.
+      Finally, translate the output into Korean.
     expected_output: >
-      Strategic sales recommendations per customer, including the next best action,
-      reasoning behind it, and any relevant considerations for success.
-    agent: consultant
+      Strategic recommendations tailored to the {company}'s domain, supported by keyword insights and trend data.
+    agent: strategy_advisor
 
 translate_task:
     description: >
-      Translate the each analyst's English output and consultant’s English output into clear and natural Korean. Account means a customer. 
+      Translate the each strategy_advisor's English output and consultant’s English output into clear and natural Korean. 
       Finally Change it to a markdown format.
     expected_output: >
       A Korean translation of the consultant’s recommendations that preserves original meaning
