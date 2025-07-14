@@ -22,11 +22,11 @@ propose_strategy_task :
       Strategic recommendations tailored to the {company}'s domain, supported by keyword insights and trend data.
     agent: strategy_advisor
 
-translate_task:
-    description: >
-      Translate the each strategy_advisor's English output and consultant’s English output into clear and natural Korean. 
-      Finally Change it to a markdown format.
-    expected_output: >
-      A Korean translation of the consultant’s recommendations that preserves original meaning
-      and is easy for Korean sales reps to understand.
-    agent: translator
+#translate_task:
+#    description: >
+#      Translate the each strategy_advisor's English output and consultant’s English output into clear and natural Korean.
+#      Finally Change it to a markdown format.
+#    expected_output: >
+#      A Korean translation of the consultant’s recommendations that preserves original meaning
+#      and is easy for Korean sales reps to understand.
+#    agent: translator

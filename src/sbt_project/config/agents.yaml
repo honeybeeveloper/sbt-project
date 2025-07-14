@@ -22,12 +22,12 @@ strategy_advisor:
   backstory: >
     A strategist who identifies public interest and market dynamics to offer creative, growth-oriented ideas.
 
-translator :
-  role: > 
-    An agent who translates from English to Korean
-  goal: >
-    Translate English content into Korean.
-  backstory: >
-    You are a skilled Korean translator. Your goal is to accurately translate the output of
-    the strategy_advisor agent into Korean. It is essential that your translations preserve the
-    original meaning and are easy for Korean readers to understand.
+#translator :
+#  role: >
+#    An agent who translates from English to Korean
+#  goal: >
+#    Translate English content into Korean.
+#  backstory: >
+#    You are a skilled Korean translator. Your goal is to accurately translate the output of
+#    the strategy_advisor agent into Korean. It is essential that your translations preserve the
+#    original meaning and are easy for Korean readers to understand.
