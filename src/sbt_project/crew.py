@@ -3,9 +3,11 @@ import datetime
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
+from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource
+from crewai.knowledge.source.text_file_knowledge_source  import TextFileKnowledgeSource
 from typing import List
 
-from sbt_project import app_config
+from sbt_project import app_config, app_logger
 from sbt_project.tools import TrendTool, VisualizationTool
 
 now_str = datetime.datetime.now().strftime('%y%m%d_%H%M%S')
@@ -21,11 +23,21 @@ class SbtProject():
     trand_tool = TrendTool()
     # visualization_tool = VisualizationTool()
 
+    # knowledge
+    # agent_knowledge = StringKnowledgeSource(
+    #     content="SBT Global provide Salesforce implementation and consulting services. "
+    #             "We specialize in custom development tailored to client needs, with strong expertise in consulting for Salesforce Sales Cloud, Service Cloud, and Partner Community."
+    # )
+    # web_source = CrewDoclingSource(file_paths="https://www.sbtglobal.com/kr/salesforce2")
+    agent_knowledge = TextFileKnowledgeSource(file_paths=["SBT_knowledge.txt"])
+    app_logger.debug(f'agent_knowledge : {agent_knowledge}')
+
     @agent
     def recommender(self) -> Agent:
         return Agent(
             config=self.agents_config['recommender'], # type: ignore[index]
-            verbose=True
+            verbose=True,
+            knowledge_sources=[self.agent_knowledge]
         )
 
     @agent
@@ -42,17 +54,18 @@ class SbtProject():
             verbose=True
         )
 
-    @agent
-    def translator(self) -> Agent:
-        return Agent(
-            config=self.agents_config['translator'],  # type: ignore[index]
-            verbose=True
-        )
+    # @agent
+    # def translator(self) -> Agent:
+    #     return Agent(
+    #         config=self.agents_config['translator'],  # type: ignore[index]
+    #         verbose=True
+    #     )
 
     @task
     def recommend_task(self) -> Task:
         return Task(
             config=self.tasks_config['recommend_task'], # type: ignore[index]
+            output_file=f"{self.company}_keywords_{now_str}.md",
         )
 
     @task
@@ -61,7 +74,6 @@ class SbtProject():
             config=self.tasks_config['investigate_task'], # type: ignore[index]
             context=[self.recommend_task()],
             tools=[self.trand_tool],
-            output_file=f"{self.company}_investigate_task_{now_str}.md",
         )
 
     @task
@@ -72,13 +84,13 @@ class SbtProject():
             output_file=f"{self.company}_propose_strategy_task_{now_str}.md",
         )
 
-    @task
-    def translate_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['translate_task'],  # type: ignore[index]
-            context=[self.investigate_task(), self.propose_strategy_task()],
-            output_file=f"{self.company}_translate_task_{now_str}.md",
-        )
+    # @task
+    # def translate_task(self) -> Task:
+    #     return Task(
+    #         config=self.tasks_config['translate_task'],  # type: ignore[index]
+    #         context=[self.investigate_task(), self.propose_strategy_task()],
+    #         output_file=f"{self.company}_translate_task_{now_str}.md",
+    #     )
 
     @crew
     def crew(self) -> Crew:
@@ -91,5 +103,6 @@ class SbtProject():
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
+            knowledge_sources=[self.agent_knowledge]
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
