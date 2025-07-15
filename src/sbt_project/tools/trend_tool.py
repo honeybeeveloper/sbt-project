@@ -21,11 +21,11 @@ class TrendTool(BaseTool):
     args_schema: Type[BaseModel] = TrendToolInput
 
 
-    def _run(self, keywords: str) -> str:
-        data = self.__keywords()
-        time.sleep(3)
+    def _run(self, keywords: list) -> str:
+        app_logger.debug(f'keywords : {keywords}')
+        data = self.__keywords(keywords=keywords)
+        app_logger.debug(f'data : {data}')
         VisualizationTool.visualize(data.to_dict())
-        # self.__popular_searches()
         return ''
 
 
@@ -47,7 +47,7 @@ class TrendTool(BaseTool):
 
     def  __popular_searches(self) -> list:
         """
-        실시간 인기
+        실시간 인기 - Not available
         """
         # 구글 트렌드 요청
         pytrends = TrendReq(hl='en-US', tz=360)  # hl=ko-KR
@@ -56,5 +56,3 @@ class TrendTool(BaseTool):
         trending = pytrends.trending_searches(pn='united_states')  # 특정 지역 코드 사용
         app_logger.debug(f'__popular_searches : {trending}')
         return trending
-
-
