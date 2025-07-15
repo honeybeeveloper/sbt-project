@@ -1,25 +1,28 @@
 recommend_task :
   description: >
-    Based on the {company}, analyze its business domain and recommend keywords that offer insight for sustaining and expanding its business.
-    Finally, translate the output into Korean.
+    My information is described in the knowledge file. Please refer to it.
+    Please recommend keywords that provide insight into business sustainability and expansion strategies targeting the prospective client, {company}.
+    Finally, translate the output into Korean and emphasize the important parts by adding asterisks (*).
   expected_output: >
-    A list of strategic keywords relevant to the {company}'s current and future business directions.
+    A list of strategic keywords to help successfully approach and sell to {company}.
   agent: recommender
 
 investigate_task :
     description: >
+      My information is described in the knowledge file. Please refer to it.
       Research the current trends for the keywords suggested by the Keyword Recommender. Use Google Trends and other websites to gather trend data and summarize insights.
-      Finally, translate the output into Korean.
+      Finally, translate the output into Korean and emphasize the important parts by adding asterisks (*).
     expected_output: >
       A summarized trend report for each keyword, including interest levels, regional patterns, and recent mentions or news.
     agent: trend_investigator
 
 propose_strategy_task :
     description: >
-      Based on the {company} profile and the keyword trend report, propose innovative and practical strategies that could support business growth and differentiation.
-      Finally, translate the output into Korean.
+      Our company's service information is described in the knowledge file. Please refer to it.
+      Based on information about the sales target, {company}, and the keyword trend report, please propose innovative and practical strategies that can support the growth and differentiation of my business.      
+      Finally, translate the output into Korean and emphasize the important parts by adding asterisks (*).
     expected_output: >
-      Strategic recommendations tailored to the {company}'s domain, supported by keyword insights and trend data.
+      Strategic recommendations for my business targeting {company}, grounded in keyword insights and trend data.
     agent: strategy_advisor
 
 #translate_task:
