@@ -3,7 +3,10 @@ import datetime
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
+from crewai.knowledge.source.text_file_knowledge_source  import TextFileKnowledgeSource
 from typing import List
+
+from sbt_project import app_config, app_logger, sales_activity
 
 now_str = datetime.datetime.now().strftime('%y%m%d_%H%M%S')
 
@@ -14,32 +17,42 @@ class SbtProject():
     agents: List[BaseAgent]
     tasks: List[Task]
 
+    # knowledge
+    agent_knowledge = TextFileKnowledgeSource(file_paths=["SBTGlobal_knowledge.txt"])
+
+    app_logger.debug(f" target account : {sales_activity['account']}")
+    target_account = sales_activity['account']
+
     @agent
     def researcher(self) -> Agent:
         return Agent(
             config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True
+            verbose=True,
+            knowledge_sources=[self.agent_knowledge]
         )
 
     @agent
     def analyst(self) -> Agent:
         return Agent(
             config=self.agents_config['analyst'], # type: ignore[index]
-            verbose=True
+            verbose=True,
+            knowledge_sources=[self.agent_knowledge]
         )
 
     @agent
     def consultant(self) -> Agent:
         return Agent(
             config=self.agents_config['consultant'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            knowledge_sources=[self.agent_knowledge]
         )
 
     @agent
-    def translator(self) -> Agent:
+    def summarizer(self) -> Agent:
         return Agent(
-            config=self.agents_config['translator'],  # type: ignore[index]
-            verbose=True
+            config=self.agents_config['summarizer'],  # type: ignore[index]
+            verbose=True,
+            knowledge_sources=[self.agent_knowledge]
         )
 
     @task
@@ -52,7 +65,7 @@ class SbtProject():
     def analyze_task(self) -> Task:
         return Task(
             config=self.tasks_config['analyze_task'], # type: ignore[index]
-            output_file=f"analyze_task_{now_str}.md",
+            output_file=f"{self.target_account}_analyze_task_{now_str}.json",
         )
 
     @task
@@ -60,27 +73,24 @@ class SbtProject():
         return Task(
             config=self.tasks_config['consulting_task'],  # type: ignore[index]
             context=[self.research_task(), self.analyze_task()],
-            output_file=f"consulting_task_{now_str}.md",
+            output_file=f"{self.target_account}_consulting_task_{now_str}.json",
         )
 
     @task
-    def translate_task(self) -> Task:
+    def summarize_task(self) -> Task:
         return Task(
-            config=self.tasks_config['translate_task'],  # type: ignore[index]
-            context=[self.consulting_task()],
-            output_file=f"translate_task_{now_str}.md",
+            config=self.tasks_config['summarize_task'],  # type: ignore[index]
+            context=[self.research_task(), self.analyze_task()],
+            output_file=f"{self.target_account}_summarize_task_{now_str}.json",
         )
 
     @crew
     def crew(self) -> Crew:
         """Creates the SbtProject crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
         return Crew(
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
+
