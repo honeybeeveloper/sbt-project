@@ -18,6 +18,7 @@ class Config(CustomObject):
     def __init__(self, config_file):
         super(Config, self).__init__()
         env_dir = os.path.join(os.getcwd(), 'configs')
+        # env_dir = os.path.join(os.getcwd(),'src', 'sbt_project', 'configs') // out-main.py
         self.config_file = f'{env_dir}/{config_file}'
         self.__load_config()
 
@@ -30,6 +31,7 @@ class Config(CustomObject):
         self.home = loaded_config['home']
         default_config = loaded_config['production']
         default_config['company'] = loaded_config['company']
+        default_config['app_reload'] = loaded_config['app_reload']
 
         # apply testing config
         self.is_testing = not self.env.startswith('prod')

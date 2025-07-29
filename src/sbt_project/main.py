@@ -21,7 +21,7 @@ def run():
 
     inputs = {
         'company' : input_test['account'],
-        'input_test': input_test['activity'],
+        'sales_activity': input_test['activity'],
     }
     
     try:
