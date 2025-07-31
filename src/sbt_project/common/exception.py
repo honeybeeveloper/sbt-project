@@ -33,3 +33,9 @@ class FailToUpdate(DatabaseEx):
     def __init__(self, error_message):
         status_code = 400
         super().__init__(status_code, error_message)
+
+
+class InternalServerError(CustomException):
+    def __init__(self, error_message):
+        status_code = 500
+        super().__init__(status_code, error_message)

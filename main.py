@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 
 from sbt_project import app_config, app_logger
 from sbt_project.main import run
-from sbt_project.common.exception import CustomException
+from sbt_project.common.exception import CustomException, InternalServerError
 
 
 # FastAPI app
@@ -38,13 +38,16 @@ async def exception_handler(request: Request, ex: CustomException):
 
 @app.get("/run")
 async def run_crewai():
-    result = run()
-    # result = crew.kickoff()
-    return {"result": result}
+    try:
+        result = run()
+        return {"status": "success", "result": result}
+    except InternalServerError as ex:
+        return JSONResponse(status_code=ex.status_code, content=ex.detail)
+
 
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host='127.0.0.1', port=5000, reload=app_config.app_reload)
+    uvicorn.run("main:app", host='0.0.0.0', port=5000, reload=app_config.app_reload)
 
 # def main():
 #     print("Hello from sbt-project!")

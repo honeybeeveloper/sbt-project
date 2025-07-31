@@ -25,7 +25,10 @@ def run():
     }
     
     try:
-        SbtProject().crew().kickoff(inputs=inputs)
+        # SbtProject().crew().kickoff(inputs=inputs)
+        crew_instance = SbtProject().crew()
+        result = crew_instance.kickoff(inputs=inputs)  # 중요한 부분: 결과를 받아야 함
+        return result
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 

@@ -82,6 +82,7 @@ class SbtProject():
             config=self.tasks_config['summarize_task'],  # type: ignore[index]
             context=[self.research_task(), self.analyze_task()],
             output_file=f"{self.target_account}_summarize_task_{now_str}.json",
+            return_output=True
         )
 
     @crew
