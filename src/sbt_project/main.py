@@ -3,25 +3,22 @@ import os
 import sys
 import warnings
 
-from sbt_project import app_config, ROOT_DIR
+from sbt_project import app_config, sales_activity
 from sbt_project.common import utils
 from sbt_project.crew import SbtProject
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
-
-json_path = os.path.join(ROOT_DIR, 'converted_data.json')
-input_test = utils.json_to_dict(json_path)
 
 def run():
     """
     Run the crew.
     """
 
-    print(f"{input_test['account']} / {input_test['activity']}")
+    print(f"{sales_activity['account']} / {sales_activity['activity']}")
 
     inputs = {
-        'company' : input_test['account'],
-        'sales_activity': input_test['activity'],
+        'company' : sales_activity['account'],
+        'sales_activity': sales_activity['activity'],
     }
     
     try:
@@ -38,8 +35,8 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        'company': input_test['account'],
-        'input_test': input_test['activity'],
+        'company': sales_activity['account'],
+        'input_test': sales_activity['activity'],
     }
     try:
         SbtProject().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
@@ -62,8 +59,8 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        'company' : input_test['account'],
-        'input_test': input_test['activity'],
+        'company' : sales_activity['account'],
+        'input_test': sales_activity['activity'],
     }
     try:
         SbtProject().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
