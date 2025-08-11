@@ -17,8 +17,8 @@ class Config(CustomObject):
 
     def __init__(self, config_file):
         super(Config, self).__init__()
-        env_dir = os.path.join(os.getcwd(), 'configs')
-        self.config_file = f'{env_dir}/{config_file}'
+        self.env_dir, self.is_fastapi = self.__get_env_dir()
+        self.config_file = f'{self.env_dir}/configs/{config_file}'
         self.__load_config()
 
 
@@ -30,6 +30,9 @@ class Config(CustomObject):
         self.home = loaded_config['home']
         default_config = loaded_config['production']
         default_config['company'] = loaded_config['company']
+        default_config['app_reload'] = loaded_config['app_reload']
+        default_config['env_dir'] = self.env_dir
+        default_config['is_fastapi'] = self.is_fastapi
 
         # apply testing config
         self.is_testing = not self.env.startswith('prod')
@@ -59,3 +62,20 @@ class Config(CustomObject):
                 setattr(dest_cls, key, attr_cls)
             else:
                 setattr(dest_cls, key, value)
+
+
+    def __get_env_dir(self):
+        # 현재 Python 프로세스의 작업 디렉토리
+        script_path = os.getcwd()
+
+        # 'src' 디렉토리가 경로에 포함 되어 있는지 확인
+        contains_src = 'src' in script_path.split(os.sep)
+        if contains_src:
+            is_fastapi = False
+            env_dir = os.getcwd() # crewai 실행으로 판단
+        else:
+            is_fastapi = True
+            env_dir = os.path.join(os.getcwd(), 'src', 'sbt_project') # fastapi 실행으로 판단
+
+        return env_dir, is_fastapi
+

@@ -1,32 +1,36 @@
-research_task :
+research_task:
   description: >
-    Extract Account Names from the {input_test} and collect key characteristics for each account. Account means a customer.
+    Gather the most up-to-date and relevant information about the {company}.
   expected_output: >
-    A structured list of customer names with detailed characteristics per customer 
-    (e.g., industry, company size, key contact, etc.)
+    A concise and structured summary of key facts about {company}, including recent news, business focus, leadership, market status, and competitive positioning.
   agent: researcher
 
-analyze_task :
+analyze_task:
     description: >
-      Analyze and summarize the sales activities per Account Name based on {input_test}. Account means a customer.
-    expected_output: >
-      A detailed summary and analysis of past sales activities for each customer,
-      including engagement frequency, type, and outcomes.
+      Analyze and summarize the sales activities based on {sales_activity}.
+      And analyze the sales activities by date.
+      Finally, translate the output into Korean and convert it into JSON format.
+    expected_output: >      
+      A sequential breakdown of past {sales_activity}, highlighting customer responses, deal progress, objections, and outcomes.
     agent: analyst
 
 consulting_task:
     description: >
-      Generate customized sales strategies for each customer by combining sales activity data and customer characteristics. Account means a customer.
+      Based on the analyst's and researcher's outputs, develop a tailored sales strategy.
+      Finally, translate the output into Korean and convert it into JSON format.
     expected_output: >
-      Strategic sales recommendations per customer, including the next best action,
-      reasoning behind it, and any relevant considerations for success.
+       A recommended sales strategy specific to {company}, including the next best action, messaging focus, and potential engagement plan.
     agent: consultant
 
-translate_task:
+summarize_task:
     description: >
-      Translate the each analyst's English output and consultant’s English output into clear and natural Korean. Account means a customer. 
-      Finally Change it to a markdown format.
+      Based on the provided {sales_activity} data, analyze and summarize the latest {sales_activity} data on a weekly basis and extract actionable insights.
+      Your output should include:
+        1. Key decision milestones and issues by timeline
+        2. Summary of recurring risks or delays
+        3. Recommendations or strategic next actions
+        Keep the summary clear, concise, and suitable for executive-level review
+      Finally, translate the output into Korean and convert it into JSON format.
     expected_output: >
-      A Korean translation of the consultant’s recommendations that preserves original meaning
-      and is easy for Korean sales reps to understand.
-    agent: translator
+        A weekly sales activity summary report including key outcomes, challenges, opportunities, and strategic observations.
+    agent: summarizer
