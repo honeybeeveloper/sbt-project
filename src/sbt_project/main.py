@@ -5,7 +5,8 @@ import warnings
 
 from sbt_project import app_config, sales_activity
 from sbt_project.common import utils
-from sbt_project.crew import SbtProject
+from sbt_project.crew_2 import SbtProject
+from sbt_project.common.exception import CustomException
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -23,10 +24,10 @@ def run():
     
     try:
         # SbtProject().crew().kickoff(inputs=inputs)
-        crew_instance = SbtProject().crew()
+        crew_instance = SbtProject().crew_2()
         result = crew_instance.kickoff(inputs=inputs)  # 중요한 부분: 결과를 받아야 함
         return result
-    except Exception as e:
+    except CustomException as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 
 
@@ -39,7 +40,7 @@ def train():
         'input_test': sales_activity['activity'],
     }
     try:
-        SbtProject().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        SbtProject().crew_2().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
@@ -49,7 +50,7 @@ def replay():
     Replay the crew execution from a specific task.
     """
     try:
-        SbtProject().crew().replay(task_id=sys.argv[1])
+        SbtProject().crew_2().replay(task_id=sys.argv[1])
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
@@ -63,7 +64,7 @@ def test():
         'input_test': sales_activity['activity'],
     }
     try:
-        SbtProject().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
+        SbtProject().crew_2().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
