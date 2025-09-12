@@ -69,13 +69,6 @@ class SbtProject():
         )
 
     @task
-    def financials_normalization(self) -> Task:
-        return Task(
-            config=self.tasks_config['financials_normalization'],  # type: ignore[index]
-            output_file=f"{self.target_account}_financials_normalization_{now_str}.md",
-        )
-
-    @task
     def risk_assessment(self) -> Task:
         return Task(
             config=self.tasks_config['risk_assessment'],  # type: ignore[index]
@@ -87,7 +80,7 @@ class SbtProject():
         return Task(
             config=self.tasks_config['sales_data_cleansing'],  # type: ignore[index]
             context=[self.corporate_curation(), self.corporate_profiling(), self.market_sizing(),
-                     self.financials_normalization(), self.risk_assessment()],
+                     self.risk_assessment()],
             output_file=f"{self.target_account}_sales_data_cleansing_{now_str}.md",
         )
 
@@ -96,7 +89,7 @@ class SbtProject():
         return Task(
             config=self.tasks_config['sales_effectiveness_review'],  # type: ignore[index]
             context=[self.corporate_curation(), self.corporate_profiling(), self.market_sizing(),
-                     self.financials_normalization(), self.risk_assessment()],
+                     self.risk_assessment()],
             output_file=f"{self.target_account}_sales_effectiveness_review_{now_str}.md",
         )
 
@@ -105,7 +98,7 @@ class SbtProject():
         return Task(
             config=self.tasks_config['pipeline_forecasting'],  # type: ignore[index]
             context=[self.corporate_curation(), self.corporate_profiling(), self.market_sizing(),
-                     self.financials_normalization(), self.risk_assessment()],
+                     self.risk_assessment()],
             output_file=f"{self.target_account}_pipeline_forecasting_{now_str}.md",
         )
 
@@ -114,7 +107,7 @@ class SbtProject():
         return Task(
             config=self.tasks_config['sales_strategy_optimization'],  # type: ignore[index]
             context=[self.corporate_curation(), self.corporate_profiling(), self.market_sizing(),
-                     self.financials_normalization(), self.risk_assessment()],
+                     self.risk_assessment()],
             output_file=f"{self.target_account}_sales_strategy_optimization_{now_str}.md",
         )
 
@@ -123,7 +116,7 @@ class SbtProject():
         return Task(
             config=self.tasks_config['executive_sales_report'],  # type: ignore[index]
             context=[self.corporate_curation(), self.corporate_profiling(), self.market_sizing(),
-                     self.financials_normalization(), self.risk_assessment()],
+                     self.risk_assessment()],
             output_file=f"{self.target_account}_executive_sales_report_{now_str}.md",
         )
 

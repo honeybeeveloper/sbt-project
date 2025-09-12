@@ -22,14 +22,6 @@ market_sizing:
     2. 불확실성/공신력 평가(High/Medium/Low + 이유)
   agent: researcher
 
-financials_normalization:
-  description: > 
-    {company}의 최근 3개년 손익계산서/재무상태표/현금흐름 핵심 지표(매출, 영업이익, 순이익, 총자산/부채, 영업CF/투자CF/재무CF, FCF, 부채비율, 영업이익률 등)를 수집·정규화합니다.
-  expected_output: >
-    1. 표 형태: [연도 | 매출 | 영업이익 | 순이익 | 영업이익률 | FCF | 부채비율 | 주석 | 출처]
-    2. 추세 코멘트 5줄 이내(성장/수익성/현금 창출/레버리지)
-  agent: researcher
-
 risk_assessment:
   description: > 
     규제, 재무, 운영, 경쟁, 공급망, 평판, 기술/보안 등 리스크를 식별하고 발생가능성×영향도 매트릭스로 정리합니다. 이어 {company}의 종합 평점을 제시합니다.
